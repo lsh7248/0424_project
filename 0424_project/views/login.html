@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Diary - Login</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1><a href="/">My Diary</a></h1>
+    <h2>Login</h2>
+    <form action="/login" method="post">
+        <p><input type="text" name="name" placeholder="name"></p>
+        <p><input type="password" name="password" placeholder="password"></p>
+        <button type="submit">로그인</button>
+    </form>
+    {{ message | safe }}
+</body>
+</html>

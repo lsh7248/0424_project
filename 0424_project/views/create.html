@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Diary - Create</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1><a href="/">{{ name }} Diary</a></h1>
+    <ol>
+{{ menu | safe}}
+    </ol>
+    <h2>Create</h2>
+    <form action="/create" method="post">
+        <p><input type="text" name="title" placeholder="title"></p>
+        <p><textarea name="content" placeholder="content"></textarea></p>
+        <button type="submit">제출</button>
+    </form>
+</body>
+</html>
