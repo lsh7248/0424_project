@@ -3,6 +3,7 @@
 <head>
     <title>My Diary - Login</title>
     <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1><a href="/">My Diary</a></h1>
@@ -11,6 +12,7 @@
         <p><input type="text" name="name" placeholder="name"></p>
         <p><input type="password" name="password" placeholder="password"></p>
         <button type="submit">로그인</button>
+        <button type="button" onclick="location.href='/signup'">회원가입</button><br>
     </form>
     {{ message | safe }}
 </body>

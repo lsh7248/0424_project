@@ -2,11 +2,11 @@
 -- Table structure for table `tb_members`
 --
  
- 
+-- 직업 뺴고 생년월일 받기
 CREATE TABLE `tb_members` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
-  `profile` varchar(200) DEFAULT NULL,
+  `birth` int(8) DEFAULT NULL,
   `password` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
 );
@@ -15,10 +15,10 @@ CREATE TABLE `tb_members` (
 -- Dumping data for table `tb_members`
 --
  
-INSERT INTO `tb_members` VALUES (1,'egoing','developer', SHA2('egoing', 256));
-INSERT INTO `tb_members` VALUES (2,'duru','database administrator', SHA2('duru', 256));
-INSERT INTO `tb_members` VALUES (3,'taeho','data scientist, developer', SHA2('taeho', 256));
-INSERT INTO `tb_members` VALUES (4,'sookbu ','data engineer, developer', SHA2('sookbun', 256));
+INSERT INTO `tb_members` VALUES (1,'egoing', 19840705, SHA2('egoing', 256));
+INSERT INTO `tb_members` VALUES (2,'duru', 19791203, SHA2('duru', 256));
+INSERT INTO `tb_members` VALUES (3,'taeho',19880613, SHA2('taeho', 256));
+INSERT INTO `tb_members` VALUES (4,'sookbu ',19900905, SHA2('sookbun', 256));
  
 --
 -- Table structure for table `tb_diary`

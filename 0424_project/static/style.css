@@ -1,0 +1,49 @@
+            h1 a{
+            padding: 10px;
+			margin-bottom:0;
+            text-align: center;
+            color : 'red'
+			font-family: 'Anton', sans-serif;
+        	}
+			h2{
+			margin-left: 10px;
+			margin-bottom: 30px;
+			margin-top: 0;
+			text-align: center;
+			font-family: 'Anton', sans-serif;
+        	}
+			h3{
+            border-bottom: 3px solid rgb(88, 94, 78);
+			text-align: center;
+			margin : 10px;
+        	}
+        	ol{
+        		font-family: 'Lilita One', cursive;
+        	}
+			#container{
+				display: grid;
+				grid-template-columns: 150px 1fr;
+			}
+			#menu{
+				background-color:rgb(241, 225, 134);
+				height:200px
+				border-right: 3px solid rgb(88, 94, 78);
+			}
+			#head{
+				border-bottom: 3px solid rgb(88, 94, 78);
+			}
+			#footer{
+				border-top: 3px solid rgb(88, 94, 78);
+				font-family: 'Nanum Pen Script', cursive;
+				background-color: rgb(156, 201, 223);
+			}
+			#content{
+				background-color:#EEEEEE;
+				height:200px;
+				font-family: 'Nanum Pen Script', cursive;
+			}
+#lower{
+        background-color:#EEEEEE;
+		height:200px;
+		font-family: 'Nanum Pen Script', cursive;
+}
