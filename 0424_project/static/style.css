@@ -1,49 +1,74 @@
-            h1 a{
-            padding: 10px;
-			margin-bottom:0;
-            text-align: center;
-            color : 'red'
-			font-family: 'Anton', sans-serif;
-        	}
-			h2{
-			margin-left: 10px;
-			margin-bottom: 30px;
-			margin-top: 0;
+
+            a:link {text-decoration: none; color: black;}
+            a:visited {text-decoration: none; color: purple;}
+            a:active {text-decoration: none; color: black;}
+            a:hover {text-decoration: underline; color: hotpink;}
+            
+            h1{
+			margin-top:30px;
+			font-size:400%;
 			text-align: center;
-			font-family: 'Anton', sans-serif;
+			font-family: 'Permanent Marker', cursive;
+            }
+
+            #basic_menu{
+            text-align: right;
+            padding : 30px;
+            }
+
+            .container{
+                display: grid;
+                grid-template-columns: 300px 1fr 300px;
+                grid-template-rows: 150px 1fr;
+                border:5px dashed whitesmoke;
+			}
+
+            ol{
+                grid-column-start:2;
+                grid-column-end:3;
+                grid-row-start:1;
+                grid-row-end:2;
+        		font-family: 'Nanum Gothic', sans-serif;
+                margin-top: 20px;
+                border-bottom : 5px dashed whitesmoke;
+                overflow: auto;
         	}
-			h3{
-            border-bottom: 3px solid rgb(88, 94, 78);
-			text-align: center;
-			margin : 10px;
+            .fortune{
+                grid-column-start:1;
+                grid-column-end:2;
+                grid-row-start:1;
+                grid-row-end:3;
+                font-family: 'Nanum Gothic', sans-serif;
+                padding : 20px;
+                border-right : 5px dashed whitesmoke;
+            }
+            .main{
+                grid-column-start:2;
+                grid-column-end:3;
+                grid-row-start:2;
+                grid-row-end:3;  
+                font-family: 'Nanum Gothic', sans-serif;
+            }
+            .edit{
+                text-align: right;
+                font-family: 'Nanum Gothic', sans-serif;
+                padding : 5px;
+            }
+
+            .title{
+                text-align: center;
+                font-family: 'Nanum Gothic', sans-serif;
+                font-size : 200%;
         	}
-        	ol{
-        		font-family: 'Lilita One', cursive;
-        	}
-			#container{
-				display: grid;
-				grid-template-columns: 150px 1fr;
-			}
-			#menu{
-				background-color:rgb(241, 225, 134);
-				height:200px
-				border-right: 3px solid rgb(88, 94, 78);
-			}
-			#head{
-				border-bottom: 3px solid rgb(88, 94, 78);
-			}
-			#footer{
-				border-top: 3px solid rgb(88, 94, 78);
-				font-family: 'Nanum Pen Script', cursive;
-				background-color: rgb(156, 201, 223);
-			}
-			#content{
-				background-color:#EEEEEE;
-				height:200px;
-				font-family: 'Nanum Pen Script', cursive;
-			}
-#lower{
-        background-color:#EEEEEE;
-		height:200px;
-		font-family: 'Nanum Pen Script', cursive;
-}
+            .content{
+                padding : 20px;
+            }
+            .news{
+                grid-column-start:3;
+                grid-column-end:4;
+                grid-row-start:1;
+                grid-row-end:3;
+                font-family: 'Nanum Gothic', sans-serif;
+                padding : 20px;
+                border-left : 5px dashed whitesmoke;
+            }

@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>WEB - {{ title }}</title>
-		<meta charset = "utf-8">
-        <link type="text/css" rel="stylesheet" href="/statics/style.css">
-	</head>
-	<body>
-        <h1><a href="/signup">Join Us!</a></h1>
-		<div>
-            <form action="/signup" method="post">
+<head>
+    <title>My Diary - Login</title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cf86159603.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1><a href="/">My Diary</a></h1>
+    <div class = 'main'>
+            <div class='title'>
+                Join Us! <br>
+                <form action="/signup" method="post">
                 <p><input type="text" name="name" placeholder="name"></p>
                 <p><input type="number" name="birth" placeholder="19900101"></p>
                 <p><input type="password" name="password" placeholder="password"></p>
                 <button type="submit">회원가입</button>
                 <button type="button" onclick="location.href='/login'">취소</button><br>
             </form>
+            </div>
+            <div class='content'>
+                {{ message | safe }}
+            </div>
+            
         </div>
-        {{ message | safe }}
-	</body>
+</body>
 </html>

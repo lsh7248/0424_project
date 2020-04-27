@@ -3,17 +3,41 @@
 <head>
     <title>My Diary - Create</title>
     <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/static/style.css?after">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cf86159603.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1><a href="/">{{ name }} Diary</a></h1>
-    <ol>
-{{ menu | safe}}
-    </ol>
-    <h2>Create</h2>
-    <form action="/create" method="post">
-        <p><input type="text" name="title" placeholder="title"></p>
-        <p><textarea name="content" placeholder="content"></textarea></p>
-        <button type="submit">제출</button>
-    </form>
+    <div id='basic_menu'>
+        <a href="/login"><i class="fas fa-sign-in-alt"> login </i></a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"> logout</i></a>
+        <a href="/create"><i class="fas fa-plus"> create</i></a>
+    </div>
+    <div class = 'container'>
+        <ol>
+            {{ menu | safe }}
+        </ol>
+        <div class = 'main'>
+            <div class='title'>
+                Create
+            </div>
+            <div class='content'>
+                <form action="/create" method="post">
+                    <p><input type="text" name="title" placeholder = "title" style = "width : 100%"></p>
+                    <p><textarea name="content" placeholder = "content" style="width:100%" rows = 20%></textarea></p>
+                    <button type="submit">제출</button>
+                </form>
+            </div>
+        </div>
+        <div class = 'news'>
+            {{ news | safe }}
+        </div>
+
+        <div class = 'fortune'>
+            {{ fortune | safe }}
+        </div>
+    </div>
 </body>
 </html>

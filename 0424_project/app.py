@@ -1,4 +1,4 @@
-import os, requests, re
+import os, requests, re, json
 import pymysql, time
 from datetime import datetime
 from flask import Flask, render_template
@@ -39,35 +39,30 @@ def index():
     if 'user' in session:
         name = session['user']['name']
         menu = get_menu(session['user']['name'])
+        fortune = get_fortune(str(session['user']['birth']))
     else:
         name = ''
-        menu = ''
+        menu = '로그인 정보가 필요합니다.'
+        fortune = '로그인 정보가 필요합니다.'
     return render_template('template.html',
                            name = name,
                            title = title,
                            content = content,
                            menu = menu,
                             news = get_news(),
-                            fortune = get_fortune(str(session['user']['birth'])))
+                            fortune = fortune)
 
-# 네이버 오늘의 운세 - selenium (창 안뜨는 옵션 추가해야함)
 def get_fortune(birth):
-    driver = webdriver.Chrome('chromedriver.exe')
-    driver.implicitly_wait(3)
-    url = "https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%EB%84%A4%EC%9D%B4%EB%B2%84%EC%9A%B4%EC%84%B8"
-    driver.get(url)
+    url = f"""https://m.search.naver.com/p/csearch/dcontent/external_api/json_todayunse_v2.naver?_callback=window.__jindo2_callback._fortune_my_0&gender=m&birth={birth}&solarCal=solar&time="""
+    print("*" * 20)
+    print(url)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    texts = str(soup).replace('\n', '').replace('\r', '')
+    regex = re.compile('"desc" : "([^"]*)')
+    result = [e.strip() for e in re.findall(regex, texts)]
 
-    driver.find_element_by_xpath('//*[@id="srch_txt"]').click()
-    driver.find_element_by_css_selector('#nx_query').click()
-    time.sleep(1)
-    driver.find_element_by_xpath('//*[@id="srch_txt"]').click()
-    driver.find_element_by_css_selector('#srch_txt').send_keys(birth)
-    driver.find_element_by_xpath('//*[@id="fortune_birthCondition"]/div[1]/fieldset/input').click()
-#     driver.find_element_by_xpath('//*[@id="fortune_birthResult"]/dl[1]/dd/p').
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    print(soup.select("#fortune_birthResult > p"))
-
-    return ""
+    return "<h3>오늘의 운세</h3><br>" + result[0]
 
 # 오늘의 뉴스
 def get_news():
@@ -76,10 +71,11 @@ def get_news():
     soup = BeautifulSoup(response.content, "html.parser")
     tags = soup.select("ul.section_list_ranking")
     texts = tags[0].get_text()
-#     regex = re.compile("(\s\d\s)\S+")
-#     regex.findall(texts)
-    
-    return texts
+    texts_list = texts.split('\n')
+    texts_list = texts_list[1:-1]
+    texts_list2 = ['<li>'+tag+'</li>' for tag in texts_list]
+    texts2 = '\n'.join(texts_list2)
+    return "<h3>오늘의 뉴스</h3><br>" + texts2
 
 
 
@@ -141,9 +137,14 @@ def logout():
 def diary(id):
     cursor = db.cursor()
     cursor.execute(f"""select title, content from tb_diary
-                       where id = '{id}'
+                       where id = {id}
                    """)
     diary_list = cursor.fetchone()
+#     title = ''
+#     content = ''
+#     while diary_list is not None:
+#         print(diary_list)
+#         diary_list = cursor.fetchone()
     title = diary_list['title']
     content = diary_list['content'] 
     
@@ -152,41 +153,51 @@ def diary(id):
                            title=title,
                            content=content,
                            menu=get_menu(session['user']['name']),
+                           news = get_news(),
+                           fortune = get_fortune(session['user']['birth']),
                            id = id,
                            img_src = get_img(title))
 
 ###########################################################
-# 네이버 웹에서 이미지 검색 & 결과 보여주기
-def get_img(word):
-    url = "https://search.naver.com/search.naver"
-    query = { 'where': 'image',
-             'sm' : 'tab_jum',
-             'query' : word
-    }
-    response = requests.get(url,params=query)
-    soup = BeautifulSoup(response.content, "html.parser")
-    tags = soup.select('img._img')
-       
-    return tags[random.randrange(50)]['data-source']
+# # 네이버 웹에서 이미지 검색 & 결과 보여주기
+# def get_img(word):
+#     url = "https://search.naver.com/search.naver"
+#     query = { 'where': 'image',
+#              'sm' : 'tab_jum',
+#              'query' : word
+#     }
+#     response = requests.get(url,params=query)
+#     soup = BeautifulSoup(response.content, "html.parser")
+#     tags = soup.select('img._img')
+#     print(tags)
+#     if len(tags) > 0:
+#         return tags[random.randrange(5)]['data-source']
+#     else :
+#         return ""
 ###########################################################
 
 ###########################################################
 # # 구글 웹에서 이미지 검색 & 결과 보여주기
-# def get_img(word):
-#     options = webdriver.ChromeOptions()
-#     options.add_argument('--headless')
-#     options.add_argument('--no-sandbox')
-#     options.add_argument('--disable-dev-shm-usage')
+def get_img(word):
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
     
-#     driver = webdriver.Chrome('chromedriver.exe', options = options)
-#     driver.implicitly_wait(10)
-#     url = f"""https://www.google.com/search?q={word}&tbm=isch"""
-#     driver.get(url)
-#     driver.page_source
+    driver = webdriver.Chrome('chromedriver.exe', options = options)
+    driver.implicitly_wait(10)
+    url = f"""https://www.google.com/search?q={word}&tbm=isch"""
+    driver.get(url)
+    driver.page_source
     
-#     soup = BeautifulSoup(driver.page_source, "html.parser")
-#     images = soup.select('img.rg_i')
-#     return images[random.randrange(50)]['data-src']
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    images = soup.select('img.rg_i')  
+    
+    images = [tag for tag in images if tag.has_attr('data-src')]
+    print(images)
+    rand_images = images[random.randrange(len(images))]
+
+    return rand_images['data-src']
 ##############################################################
 
 @app.route('/create', methods=["get", "post"])
@@ -203,12 +214,14 @@ def create():
     
     return render_template('create.html',
                            name = session['user']['name'],
-                           menu = get_menu(session['user']['name']))
+                           menu = get_menu(session['user']['name']),
+                           news = get_news(),
+                           fortune = get_fortune(str(session['user']['birth'])))
 
 @app.route("/delete/<id>")
 def delete(id):
     cursor = db.cursor()
-    cursor.execute(f"delete from tb_diary where id='{id}'")
+    cursor.execute(f"delete from tb_diary where id={id}")
     db.commit()
     
     return redirect("/")
@@ -218,7 +231,7 @@ def delete(id):
 def update(id):
     cursor = db.cursor()
     cursor.execute(f"""select title, content from tb_diary
-                       where id = '{id}'
+                       where id = {id}
                    """)
     diary_list = cursor.fetchone()
     title = diary_list['title']
@@ -229,7 +242,7 @@ def update(id):
                       title = '{request.form['title']}',
                       content = '{request.form['content']}',
                       created = '{datetime.now()}'
-                      where id = '{id}'""")
+                      where id = {id}""")
         return redirect("/")
     
     return render_template('update.html',
@@ -237,14 +250,9 @@ def update(id):
                            title=title,
                            content=content,
                            menu=get_menu(session['user']['name']),
-                           id = id)
-
-
-
-
-
-
-
+                           id = id,
+                           news = get_news(),
+                           fortune = get_fortune(str(session['user']['birth'])))
 
 
 

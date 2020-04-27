@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WEB - {{ title }}</title>
+    <title>My Diary - index</title>
     <meta charset="utf-8">
-    <link type="text/css" rel="stylesheet" href="/static/style.css">
+    <link type="text/css" rel="stylesheet" href="/static/style.css?after">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cf86159603.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1><a href="/">{{ name }} Diary</a></h1>
-    <ol>
-{{ menu | safe }}
-    </ol>
-    <div>
-        <a href="/login">login</a>
-        <a href="/logout">logout</a>
-        <a href="/create">create</a>
+    <div id='basic_menu'>
+        <a href="/login"><i class="fas fa-sign-in-alt"> login </i></a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"> logout</i></a>
+        <a href="/create"><i class="fas fa-plus"> create</i></a>
+        
 <!--         <a href="/delete/{{ id }}">delete</a> -->
     </div>
+    <div class = 'container'>
+        <ol>
+            {{ menu | safe }}
+        </ol>
+        
+        <div class = 'main'>
+            <div class='title'>
+                {{ title }}
+            </div>
+            <div class='content'>
+                {{ content }}
+            </div>
+        </div>
+        
+        <div class = 'news'>
+            {{ news | safe }}
+        </div>
     
-    <h2>{{ title }}</h2>
-    {{ content }}
-    
-    <h5>
-        {{ news }}
-    </h5>
-    
-    <h5>
-        {{ fortune }}
-    </h5>
-    
+        <div class = 'fortune'>
+            {{ fortune | safe }}
+        </div>
+    </div>
 </body>
 </html>
